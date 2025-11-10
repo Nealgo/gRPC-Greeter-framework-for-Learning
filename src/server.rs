@@ -1,5 +1,7 @@
 use tokio::sync::mpsc;
 use tonic::{Request, Response, Status, transport::Server};
+use tracing::info;
+use tracing_subscriber::{fmt::format::FmtSpan, self};
 
 use hello_world::greeter_server::{Greeter, GreeterServer};
 use hello_world::{HelloReply, HelloRequest};
@@ -18,12 +20,19 @@ pub struct MyGreeter {}
 impl Greeter for MyGreeter {
     type SayHelloStreamStream = ReceiverStream<Result<HelloReply, Status>>;
 
+    #[tracing::instrument]
     async fn say_hello(
         &self,
         request: Request<HelloRequest>,
     ) -> Result<Response<HelloReply>, Status> {
-        println!("Got a request: {:?}", request);
+        info!("Got a request: {:?}", request);
         let name = request.into_inner().name;
+
+        // Simulate some business logic
+        tracing::info_span!("server_processing").in_scope(|| async {
+            sleep(Duration::from_millis(20)).await;
+        }).await;
+
         let reply = HelloReply {
             message: format!("Hello {}!", name),
         };
@@ -32,6 +41,7 @@ impl Greeter for MyGreeter {
     }
 
     // server-streaming RPC
+    #[tracing::instrument]
     async fn say_hello_stream(
         &self,
         request: Request<HelloRequest>,
@@ -61,10 +71,17 @@ impl Greeter for MyGreeter {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    tracing_subscriber::fmt()
+        .json()
+        .with_span_events(FmtSpan::FULL)
+        .with_current_span(true)
+        .with_span_list(true)
+        .init();
+
     let addr = "[::1]:50051".parse()?;
     let greeter = MyGreeter::default();
 
-    println!("Server listening on {}", addr);
+    info!("Server listening on {}", addr);
 
     Server::builder()
         .add_service(GreeterServer::new(greeter))

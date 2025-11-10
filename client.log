@@ -1,0 +1,50 @@
+{"timestamp":"2025-11-10T07:09:46.250533Z","level":"INFO","fields":{"message":"new"},"target":"client","span":{"iteration":0,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.250644Z","level":"INFO","fields":{"message":"enter"},"target":"client","span":{"iteration":0,"name":"client_call"},"spans":[{"iteration":0,"name":"client_call"}]}
+{"timestamp":"2025-11-10T07:09:46.250687Z","level":"INFO","fields":{"message":"exit"},"target":"client","span":{"iteration":0,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.279638Z","level":"INFO","fields":{"message":"close","time.busy":"43.8µs","time.idle":"29.1ms"},"target":"client","span":{"iteration":0,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.279880Z","level":"INFO","fields":{"message":"Unary Response: Hello Alice-0!"},"target":"client"}
+{"timestamp":"2025-11-10T07:09:46.279993Z","level":"INFO","fields":{"message":"new"},"target":"client","span":{"iteration":1,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.280090Z","level":"INFO","fields":{"message":"enter"},"target":"client","span":{"iteration":1,"name":"client_call"},"spans":[{"iteration":1,"name":"client_call"}]}
+{"timestamp":"2025-11-10T07:09:46.280166Z","level":"INFO","fields":{"message":"exit"},"target":"client","span":{"iteration":1,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.306326Z","level":"INFO","fields":{"message":"close","time.busy":"76.6µs","time.idle":"26.3ms"},"target":"client","span":{"iteration":1,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.306481Z","level":"INFO","fields":{"message":"Unary Response: Hello Alice-1!"},"target":"client"}
+{"timestamp":"2025-11-10T07:09:46.306547Z","level":"INFO","fields":{"message":"new"},"target":"client","span":{"iteration":2,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.306584Z","level":"INFO","fields":{"message":"enter"},"target":"client","span":{"iteration":2,"name":"client_call"},"spans":[{"iteration":2,"name":"client_call"}]}
+{"timestamp":"2025-11-10T07:09:46.306626Z","level":"INFO","fields":{"message":"exit"},"target":"client","span":{"iteration":2,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.331969Z","level":"INFO","fields":{"message":"close","time.busy":"42.0µs","time.idle":"25.4ms"},"target":"client","span":{"iteration":2,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.332132Z","level":"INFO","fields":{"message":"Unary Response: Hello Alice-2!"},"target":"client"}
+{"timestamp":"2025-11-10T07:09:46.332200Z","level":"INFO","fields":{"message":"new"},"target":"client","span":{"iteration":3,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.332238Z","level":"INFO","fields":{"message":"enter"},"target":"client","span":{"iteration":3,"name":"client_call"},"spans":[{"iteration":3,"name":"client_call"}]}
+{"timestamp":"2025-11-10T07:09:46.332282Z","level":"INFO","fields":{"message":"exit"},"target":"client","span":{"iteration":3,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.357712Z","level":"INFO","fields":{"message":"close","time.busy":"43.9µs","time.idle":"25.5ms"},"target":"client","span":{"iteration":3,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.357835Z","level":"INFO","fields":{"message":"Unary Response: Hello Alice-3!"},"target":"client"}
+{"timestamp":"2025-11-10T07:09:46.357887Z","level":"INFO","fields":{"message":"new"},"target":"client","span":{"iteration":4,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.357992Z","level":"INFO","fields":{"message":"enter"},"target":"client","span":{"iteration":4,"name":"client_call"},"spans":[{"iteration":4,"name":"client_call"}]}
+{"timestamp":"2025-11-10T07:09:46.358033Z","level":"INFO","fields":{"message":"exit"},"target":"client","span":{"iteration":4,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.384347Z","level":"INFO","fields":{"message":"close","time.busy":"42.2µs","time.idle":"26.4ms"},"target":"client","span":{"iteration":4,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.384581Z","level":"INFO","fields":{"message":"Unary Response: Hello Alice-4!"},"target":"client"}
+{"timestamp":"2025-11-10T07:09:46.384670Z","level":"INFO","fields":{"message":"new"},"target":"client","span":{"iteration":5,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.384719Z","level":"INFO","fields":{"message":"enter"},"target":"client","span":{"iteration":5,"name":"client_call"},"spans":[{"iteration":5,"name":"client_call"}]}
+{"timestamp":"2025-11-10T07:09:46.384776Z","level":"INFO","fields":{"message":"exit"},"target":"client","span":{"iteration":5,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.411920Z","level":"INFO","fields":{"message":"close","time.busy":"56.9µs","time.idle":"27.2ms"},"target":"client","span":{"iteration":5,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.412096Z","level":"INFO","fields":{"message":"Unary Response: Hello Alice-5!"},"target":"client"}
+{"timestamp":"2025-11-10T07:09:46.412168Z","level":"INFO","fields":{"message":"new"},"target":"client","span":{"iteration":6,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.412206Z","level":"INFO","fields":{"message":"enter"},"target":"client","span":{"iteration":6,"name":"client_call"},"spans":[{"iteration":6,"name":"client_call"}]}
+{"timestamp":"2025-11-10T07:09:46.412253Z","level":"INFO","fields":{"message":"exit"},"target":"client","span":{"iteration":6,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.438262Z","level":"INFO","fields":{"message":"close","time.busy":"47.0µs","time.idle":"26.0ms"},"target":"client","span":{"iteration":6,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.438464Z","level":"INFO","fields":{"message":"Unary Response: Hello Alice-6!"},"target":"client"}
+{"timestamp":"2025-11-10T07:09:46.438532Z","level":"INFO","fields":{"message":"new"},"target":"client","span":{"iteration":7,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.438569Z","level":"INFO","fields":{"message":"enter"},"target":"client","span":{"iteration":7,"name":"client_call"},"spans":[{"iteration":7,"name":"client_call"}]}
+{"timestamp":"2025-11-10T07:09:46.438614Z","level":"INFO","fields":{"message":"exit"},"target":"client","span":{"iteration":7,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.464816Z","level":"INFO","fields":{"message":"close","time.busy":"44.9µs","time.idle":"26.2ms"},"target":"client","span":{"iteration":7,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.465005Z","level":"INFO","fields":{"message":"Unary Response: Hello Alice-7!"},"target":"client"}
+{"timestamp":"2025-11-10T07:09:46.465090Z","level":"INFO","fields":{"message":"new"},"target":"client","span":{"iteration":8,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.465136Z","level":"INFO","fields":{"message":"enter"},"target":"client","span":{"iteration":8,"name":"client_call"},"spans":[{"iteration":8,"name":"client_call"}]}
+{"timestamp":"2025-11-10T07:09:46.465189Z","level":"INFO","fields":{"message":"exit"},"target":"client","span":{"iteration":8,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.491702Z","level":"INFO","fields":{"message":"close","time.busy":"53.6µs","time.idle":"26.6ms"},"target":"client","span":{"iteration":8,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.491954Z","level":"INFO","fields":{"message":"Unary Response: Hello Alice-8!"},"target":"client"}
+{"timestamp":"2025-11-10T07:09:46.492064Z","level":"INFO","fields":{"message":"new"},"target":"client","span":{"iteration":9,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.492166Z","level":"INFO","fields":{"message":"enter"},"target":"client","span":{"iteration":9,"name":"client_call"},"spans":[{"iteration":9,"name":"client_call"}]}
+{"timestamp":"2025-11-10T07:09:46.492266Z","level":"INFO","fields":{"message":"exit"},"target":"client","span":{"iteration":9,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.518420Z","level":"INFO","fields":{"message":"close","time.busy":"101µs","time.idle":"26.3ms"},"target":"client","span":{"iteration":9,"name":"client_call"},"spans":[]}
+{"timestamp":"2025-11-10T07:09:46.518589Z","level":"INFO","fields":{"message":"Unary Response: Hello Alice-9!"},"target":"client"}
