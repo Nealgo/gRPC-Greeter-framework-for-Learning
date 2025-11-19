@@ -64,12 +64,12 @@ impl Greeter for MyGreeter {
         Ok(Response::new(ReceiverStream::new(rx)))
     }
 }
-
-#[tokio::main(flavor = "current_thread")]
+ 
+#[tokio::main(worker_threads = 5)]  
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 1. 定义并解析监听地址
     let addr = "[::1]:50051".parse()?;
-
+ 
     // 2. 创建我们服务逻辑的实例
     let greeter = MyGreeter::default();
 
