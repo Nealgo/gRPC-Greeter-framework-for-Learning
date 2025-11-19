@@ -2,7 +2,7 @@ use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::time::{Duration, Instant};
 use tokio::sync::mpsc;
-use tonic::transport::Channel;
+use tonic::transport::{Channel, Endpoint};
 
 use hello_world::greeter_client::GreeterClient;
 use hello_world::HelloRequest;
@@ -36,24 +36,51 @@ async fn run_concurrency_benchmark(
     total_requests: u32,
 ) -> Result<BenchmarkResult, Box<dyn std::error::Error>> {
     let (tx, mut rx) = mpsc::channel::<TaskResult>(concurrency as usize);
-    let client = GreeterClient::connect(server_addr.to_string()).await?;
+    
+    // 1.【删除】这行代码，我们不再需要这个单例 client
+    // let client = GreeterClient::connect(server_addr.to_string()).await?; 
 
     let benchmark_start = Instant::now();
 
+    // 2.【新增】创建连接池 (Connection Pool)
+    let pool_size = 10; // 建议设置 10-20，足够喂饱单核 Server
+    let mut channels = Vec::with_capacity(pool_size);
+    
+    // println!("Connecting to server with {} connections...", pool_size);
+    for _ in 0..pool_size {
+        // 使用 Endpoint::from_shared 处理动态地址字符串
+        // connect().await 会建立真正的 TCP 连接
+        let channel = Endpoint::from_shared(server_addr.to_string())?
+            .connect()
+            .await?;
+        channels.push(channel);
+    }
+
+    // 3.【修改】并发循环
     for i in 0..concurrency {
-        let mut client_clone = client.clone();
         let tx_clone = tx.clone();
+
+        // 4.【关键】轮询 (Round-Robin) 从池子中获取 Channel
+        // 这样并发任务会均匀分布在这 10 条 TCP 连接上
+        let channel = channels[i as usize % pool_size].clone();
+        
+        // 5.【关键】为当前任务创建一个专属的 Client
+        let mut client = GreeterClient::new(channel);
 
         tokio::spawn(async move {
             let requests_per_task = total_requests / concurrency;
             for _ in 0..requests_per_task {
                 let request = tonic::Request::new(HelloRequest { name: "Tonic".into() });
                 let task_start = Instant::now();
-                let response = client_clone.say_hello(request).await;
+                
+                // 6.【关键】这里使用的是当前任务专属的 client，而不是外层的 clone
+                let response = client.say_hello(request).await;
+                
                 let latency = task_start.elapsed();
                 let result = TaskResult { latency, is_success: response.is_ok() };
+                
                 if tx_clone.send(result).await.is_err() {
-                    eprintln!("Receiver dropped, exiting task {}", i);
+                    // eprintln!("Receiver dropped, exiting task {}", i); // 压测时尽量减少 print
                     break;
                 }
             }
@@ -109,7 +136,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     
 
     let start_concurrency = 10;
-    let max_concurrency = 800;
+    let max_concurrency = 400;
     let stride = 10; // The step or interval
 
     // 使用 Rust 的 range 和 iterators 自动生成测试列表

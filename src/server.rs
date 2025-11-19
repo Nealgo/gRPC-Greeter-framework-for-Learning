@@ -20,7 +20,7 @@ impl Greeter for MyGreeter {
         &self,
         request: Request<HelloRequest>,
     ) -> Result<Response<HelloReply>, Status> {
-        println!("Got a request: {:?}", request);
+        // println!("Got a request: {:?}", request);
 
         // 1. 从 Tonic 的包装中取出我们定义的请求消息体
         let name = request.into_inner().name;
@@ -65,7 +65,7 @@ impl Greeter for MyGreeter {
     }
 }
 
-#[tokio::main]
+#[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 1. 定义并解析监听地址
     let addr = "[::1]:50051".parse()?;
