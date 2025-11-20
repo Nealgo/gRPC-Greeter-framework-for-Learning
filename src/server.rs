@@ -65,7 +65,7 @@ impl Greeter for MyGreeter {
     }
 }
  
-#[tokio::main(worker_threads = 5)]  
+#[tokio::main(worker_threads = 4)]  
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 1. 定义并解析监听地址
     let addr = "[::1]:50051".parse()?;
