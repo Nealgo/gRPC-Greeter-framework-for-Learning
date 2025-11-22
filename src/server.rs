@@ -7,6 +7,8 @@ use hello_world::{HelloReply, HelloRequest};
 use tokio::time::{Duration, sleep};
 use tokio_stream::wrappers::ReceiverStream;
 
+
+
 pub mod hello_world {
     tonic::include_proto!("helloworld");  // 这部分代码是自动生成的
 }
@@ -37,52 +39,58 @@ impl Greeter for MyGreeter {
     type SayHelloStreamStream = ReceiverStream<Result<HelloReply, Status>>;
 
     async fn say_hello_stream(
-        &self,
-        request: Request<HelloRequest>,
+    &self,
+    request: Request<HelloRequest>,
     ) -> Result<Response<Self::SayHelloStreamStream>, Status> {
-        let name = request.into_inner().name;
+        let input = request.into_inner().name;
+        
+        // 简单的参数解析
+        let parts: Vec<&str> = input.split(':').collect();
+        let count = parts.get(0).unwrap_or(&"100").parse::<usize>().unwrap_or(100);
+        let size = parts.get(1).unwrap_or(&"10").parse::<usize>().unwrap_or(10);
 
-        // 1. 创建一个异步通道 (Channel)
-        // tx: 发送端, rx: 接收端。4 是通道的缓冲区大小。
-        let (tx, rx) = mpsc::channel(4);
+        // 创建一个指定大小的 Payload 字符串
+        let payload = "a".repeat(size);
 
-        // 2. 启动一个新的异步任务 (Task) 来生成并发送数据
+        // 增大 channel 容量以避免服务端发送被阻塞，影响纯粹的生成速度测试
+        // 但要注意，如果 channel 满了，反映的就是真实的网络/客户端反压瓶颈
+        let (tx, rx) = mpsc::channel(1000);// 消息的数量上线是1000，也就是HelloReply的数量上限。
+
         tokio::spawn(async move {
-            for i in 1..=3 {
-                let message = format!("Hello, {}! ({}/3)", name, i);
-
-                // 3. 通过通道的发送端(tx)发送消息
-                if tx.send(Ok(HelloReply { message })).await.is_err() {
-                    // 如果发送失败 (通常是客户端断开了连接), 就退出任务
-                    break;
+            for i in 0..count {
+                let reply = HelloReply {
+                    // 模拟真实数据：带序号 + Payload
+                    message: format!("Seq-{}::{}", i, payload),
+                };
+                
+                if tx.send(Ok(reply)).await.is_err() {
+                    break; // 客户端断开
                 }
-                sleep(Duration::from_secs(1)).await; // 模拟耗时操作
             }
         });
 
-        // 4. 立刻返回一个包含通道接收端(rx)的响应
         Ok(Response::new(ReceiverStream::new(rx)))
     }
 }
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // 1. 定义并解析监听地址
     let addr = "[::1]:50051".parse()?;
-
-    // 2. 创建我们服务逻辑的实例
     let greeter = MyGreeter::default();
+    println!("Profiling Server listening on {}", addr);
 
-    println!("Server listening on {}", addr);
-
-    // 3. 构建并启动服务器
+    // 设置最大消息大小为 64MB (默认是 4MB)
+    let max_msg_size = 64 * 1024 * 1024; 
+     
     Server::builder()
-        // 添加服务，注意这里是 GreeterServer::new(greeter)
-        // 用 tonic 生成的 GreeterServer 来包装我们的 MyGreeter 实例
-        .add_service(GreeterServer::new(greeter))
-        // 绑定到地址并开始监听
+        .add_service(
+            GreeterServer::new(greeter)
+                // 关键修改：同时放宽接收(decoding)和发送(encoding)的限制
+                .max_decoding_message_size(max_msg_size)
+                .max_encoding_message_size(max_msg_size)
+        )
         .serve(addr)
         .await?;
-
+ 
     Ok(())
 }
